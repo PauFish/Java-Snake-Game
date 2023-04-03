@@ -48,26 +48,36 @@ public class GamePanel extends JPanel implements ActionListener{
 		draw(g);
 	}
 	public void draw(Graphics g) {
-		
-		for(int i =0;i<SCREEN_HEIGHT/UNIT_SIZE;i++) { //draw a grid
-			 g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);
-			 g.drawLine(0, i*UNIT_SIZE, SCREEN_HEIGHT, i*UNIT_SIZE );
-		}
-		g.setColor(Color.red);//set apple color
-		g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE); //Shape and apple size
-		
-		//draw snake head and body
-		for(int i = 0; i<bodyParts;i++) {
-			//snake head
-			if(i==0){
-				g.setColor(Color.green);
-				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);	
+		if(running) {
+			for(int i =0;i<SCREEN_HEIGHT/UNIT_SIZE;i++) { //draw a grid
+				 g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);
+				 g.drawLine(0, i*UNIT_SIZE, SCREEN_HEIGHT, i*UNIT_SIZE );
 			}
-			//snake Body
-			else {
-				g.setColor(new Color(45,180,0));
-				g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);	
+				//APPLE
+				g.setColor(Color.red);//set apple color
+				g.fillOval(appleX, appleY, UNIT_SIZE, UNIT_SIZE); //Shape and apple size
+			
+			//draw snake head and body
+			for(int i = 0; i<bodyParts;i++) {
+				//snake head
+				if(i==0){
+					g.setColor(Color.green);
+					g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);	
+				}
+				//snake Body
+				else {
+					g.setColor(new Color(45,180,0));
+					g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);	
+				}
 			}
+			//draw score
+			g.setColor(Color.blue);
+			g.setFont(new Font("Ink Free", Font.BOLD, 40)); // 75= font size
+			FontMetrics metrics = getFontMetrics(g.getFont()); //align text center		
+			g.drawString("Score: "+applesEaten,(SCREEN_WIDTH - metrics.stringWidth("Score: "+applesEaten))/2, g.getFont().getSize()); //align score top of the screen and font size changed to 40
+			
+		}else {
+			gameOver(g); //g = graphics
 		}
 	}
 	public void newApple() {
@@ -99,7 +109,13 @@ public class GamePanel extends JPanel implements ActionListener{
 		}
 	}
 	public void checkApple() { 
-		
+		//snake growing
+		if((x[0] == appleX) && (y[0] == appleY)){ //x[0] and y [0] snake head
+			bodyParts++;
+			applesEaten++; //score
+			newApple(); //create a random new apple
+			
+		}
 	}
 	public void checkCollisions() {
 		
@@ -135,6 +151,18 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 	}
 	public void gameOver(Graphics g) {
+		//Game Over Text
+		g.setColor(Color.red);
+		g.setFont(new Font("Ink Free", Font.BOLD, 75)); // 75= font size
+		FontMetrics metrics1 = getFontMetrics(g.getFont()); //align text center		
+		g.drawString("Game Over",(SCREEN_WIDTH - metrics1.stringWidth("Game Over"))/2,SCREEN_HEIGHT/2); //align GAMEOVER center of the screen
+		
+		//Score
+				g.setColor(Color.red);
+				g.setFont(new Font("Ink Free", Font.BOLD, 40)); // 75= font size
+				FontMetrics metrics2 = getFontMetrics(g.getFont()); //align text center		
+				g.drawString("Score: "+applesEaten,(SCREEN_WIDTH - metrics2.stringWidth("Score: "+applesEaten))/2, g.getFont().getSize()); //align score top of the screen
+				
 		
 	}
 	
