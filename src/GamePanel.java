@@ -103,6 +103,36 @@ public class GamePanel extends JPanel implements ActionListener{
 	}
 	public void checkCollisions() {
 		
+		
+		//checks if head collides with body
+		for (int i = bodyParts;i>0;i--) {
+			if((x[0]==x[i])&&(y[0] ==y[i])) {
+			running = false; //gameOver
+			
+			}
+			}
+		//check if head touches left border
+		if(x[0]<0) {
+			running = false;
+		}
+		//check if head touches right border
+		if(x[0]>SCREEN_WIDTH) {
+			running = false;
+		}
+		//check if head touches TOP border
+		if(y[0]<0) {
+			running = false;
+		}
+		//check if head touches bottom border
+		if(x[0]>SCREEN_HEIGHT) {
+			running = false;
+		}
+		//stop timer if gameOver
+		if(!running) {
+			timer.stop();
+		}
+		
+		
 	}
 	public void gameOver(Graphics g) {
 		
@@ -124,10 +154,37 @@ public class GamePanel extends JPanel implements ActionListener{
 		
 	}
 	
+	
+	
+	
 	public class MyKeyAdapter extends KeyAdapter{
 		@Override
-		public void KeyPressed(KeyEvent e) {
-			
+		public void keyPressed(KeyEvent e) {
+			switch(e.getKeyCode()) {
+			//move 90º
+			case KeyEvent.VK_LEFT:
+				if(direction != 'R') {
+					direction = 'L';
+				}
+				break;
+				
+			case KeyEvent.VK_RIGHT:
+				if(direction != 'L') {
+					direction = 'R';
+				}
+				break;	
+				
+			case KeyEvent.VK_UP:
+				if(direction != 'D') {
+					direction = 'U';
+				}
+				break;	
+			case KeyEvent.VK_DOWN:
+				if(direction != 'U') {
+					direction = 'D';
+				}
+				break;	
+			}
 		}
 	}
 	
