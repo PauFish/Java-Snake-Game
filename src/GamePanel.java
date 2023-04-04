@@ -88,6 +88,7 @@ public class GamePanel extends JPanel implements ActionListener{
 		//TO PLACE AN APPLE RANDOMLY 
 		appleX = random.nextInt((int)(SCREEN_WIDTH/UNIT_SIZE))*UNIT_SIZE; //random int number from 1 to the end of the width
 		appleY = random.nextInt((int)(SCREEN_HEIGHT/UNIT_SIZE))*UNIT_SIZE;
+		
 	}	
 	public void move() {
 		for(int i = bodyParts;i>0;i--){
